@@ -1,0 +1,18 @@
+---
+- name: Create multiple directories
+  hosts: all
+  become: yes
+
+  vars:
+    folders:
+      - Jay
+      - lakshmi
+      - karthik
+      # Add more directory names as needed
+
+  tasks:
+    - name: Create directories
+      file:
+        path: "/opt/{{ item }}"
+        state: directory
+      with_items: "{{ folders }}"
