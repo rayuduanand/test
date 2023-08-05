@@ -5,7 +5,7 @@
 
   tasks:
     - name: Install Apache and Nginx
-      package:
+      yum:
         name: "{{ item }}"
         state: present
       loop:
