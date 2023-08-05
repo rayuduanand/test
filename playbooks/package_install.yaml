@@ -1,0 +1,25 @@
+---
+- name: Install Apache and Nginx
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install Apache and Nginx
+      package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - httpd  # Apache package name on Red Hat
+        - nginx  # Nginx package name on Red Hat
+
+    - name: Start and enable Apache
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Start and enable Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
