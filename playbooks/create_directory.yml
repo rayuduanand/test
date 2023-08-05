@@ -1,0 +1,19 @@
+---
+- name: Create ay directory
+  hosts: all
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: Create directory - JAy
+      file:
+        path: /opt/Jay
+        state: directory
+    - name: Create directory - Karthik
+      file:
+        path: /opt/karthik
+        state: directory
+    - name: Create directory - Lakshmi
+      file:
+        path: /opt/lakshmi
+        state: directory
