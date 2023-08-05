@@ -1,0 +1,19 @@
+---
+- name: Create multiple files
+  hosts: all
+  become: yes
+
+  vars:
+    users:
+      - Jay
+      - lakshmi
+      - karthik
+      # Add more users names as needed
+
+  tasks:
+    - name: Create files
+      user:
+        name: "{{ item }}"
+        shell: /bin/bash
+        append: yes
+      with_items: "{{ users }}"
