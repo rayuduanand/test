@@ -1,30 +1,33 @@
+# playbook.yml
 ---
 - hosts: web
   become: yes
+  vars_files:
+    - vars.yml
   tasks:
     - name: Installs apache web server
       dnf:
-        name: httpd
+        name: "{{ apache_package }}"
         state: present
         update_cache: true
 
     - name: Push default virtual host configuration
       copy:
-        src: files/awesome-app
-        dest: /tmp/awesome-app1.conf
+        src: "{{ virtual_host_src }}"
+        dest: "{{ virtual_host_dest }}"
         mode: '0640'
 
     - name: Activates our virtualhost
       file:
-        src: /tmp/awesome-app1.conf  # Corrected source file name
-        dest: /etc/httpd/conf.d/awesome-app.conf  # Corrected destination path
+        src: "{{ virtual_host_link_src }}"
+        dest: "{{ virtual_host_link_dest }}"
         state: link
       notify:
         - restart apache
 
     - name: Disable the default ssl virtualhost
       file:
-        dest: /etc/httpd/conf.d/default-ssl.conf  # Corrected destination path
+        dest: "{{ default_ssl_dest }}"
         state: absent
       notify:
         - restart apache
@@ -32,5 +35,5 @@
   handlers:
     - name: restart apache
       service:
-        name: httpd
+        name: "{{ apache_package }}"
         state: restarted
