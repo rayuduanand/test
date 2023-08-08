@@ -1,0 +1,8 @@
+# vars.yml
+apache_package: httpd
+virtual_host_src: files/awesome-app
+virtual_host_dest: /tmp/awesome-app1.conf
+virtual_host_link_src: /tmp/awesome-app1.conf
+virtual_host_link_dest: /etc/httpd/conf.d/awesome-app.conf
+default_ssl_dest: /etc/httpd/conf.d/default-ssl.conf
+
