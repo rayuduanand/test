@@ -12,19 +12,19 @@
       copy:
         src: files/awesome-app
         dest: /tmp/awesome-app1.conf
-        mode: 0640
+        mode: '0640'
 
     - name: Activates our virtualhost
       file:
-        src: /tmp/awesome-app.conf
-        dest: /tmp/awesome-app.conf
+        src: /tmp/awesome-app1.conf  # Corrected source file name
+        dest: /etc/httpd/conf.d/awesome-app.conf  # Corrected destination path
         state: link
       notify:
         - restart apache
 
     - name: Disable the default ssl virtualhost
       file:
-        dest: /tmp/default-ssl.conf
+        dest: /etc/httpd/conf.d/default-ssl.conf  # Corrected destination path
         state: absent
       notify:
         - restart apache
@@ -34,4 +34,3 @@
       service:
         name: httpd
         state: restarted
-
