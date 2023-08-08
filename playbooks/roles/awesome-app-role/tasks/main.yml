@@ -1,2 +1,28 @@
+# awesome-app-role/tasks/main.yml
 ---
-# tasks file for awesome-app-role
+- name: Installs apache web server
+  dnf:
+    name: "{{ apache_package }}"
+    state: present
+    update_cache: true
+
+- name: Push default virtual host configuration
+  copy:
+    src: "{{ virtual_host_src }}"
+    dest: "{{ virtual_host_dest }}"
+    mode: '0640'
+
+- name: Activates our virtualhost
+  file:
+    src: "{{ virtual_host_link_src }}"
+    dest: "{{ virtual_host_link_dest }}"
+    state: link
+  notify:
+    - restart apache
+
+- name: Disable the default ssl virtualhost
+  file:
+    dest: "{{ default_ssl_dest }}"
+    state: absent
+  notify:
+    - restart apache
