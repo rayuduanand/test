@@ -1,2 +1,6 @@
+# awesome-app-role/handlers/main.yml
 ---
-# handlers file for awesome-app-role
+- name: restart apache
+  service:
+    name: httpd
+    state: restarted
