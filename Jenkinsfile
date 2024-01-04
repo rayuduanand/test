@@ -31,20 +31,14 @@ pipeline {
     }
 
     post {
-        failure {
-            mail to: "${env.EMAIL_RECIPIENTS}",
-                 subject: "${JOB_NAME} - Build #${BUILD_NUMBER} - ${currentBuild.currentResult}!",
-                 body: "Check console output at ${BUILD_URL} to view the results."
-        }
-    }
-    
-    postAlways {
-        script {
-            def previousBuild = currentBuild.previousBuild
-            if (previousBuild != null && previousBuild.result != currentBuild.currentResult) {
-                mail to: "${env.EMAIL_RECIPIENTS}",
-                     subject: "${JOB_NAME} - Build #${BUILD_NUMBER} - ${currentBuild.currentResult}!",
-                     body: "Check console output at ${BUILD_URL} to view the results."
+        always {
+            script {
+                def previousBuild = currentBuild.previousBuild
+                if (previousBuild != null && previousBuild.result != currentBuild.currentResult) {
+                    mail to: "${env.EMAIL_RECIPIENTS}",
+                         subject: "${JOB_NAME} - Build #${BUILD_NUMBER} - ${currentBuild.currentResult}!",
+                         body: "Check console output at ${BUILD_URL} to view the results."
+                }
             }
         }
     }
